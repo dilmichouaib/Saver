@@ -44,6 +44,7 @@ public class Signup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        setTitle("SignUp");
 
         sName      = findViewById(R.id.name_id);
         sEmail     = findViewById(R.id.email_id);
@@ -67,7 +68,7 @@ public class Signup extends AppCompatActivity {
 
 
         if(sAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), Profile.class));
             finish();
         }
 
@@ -90,7 +91,7 @@ public class Signup extends AppCompatActivity {
                     return;
                 }
 
-                if(password.length() <6 ){
+                if(password.length() <2 ){
                     sPassword.setError("Password Must be >= 8 Characters");
                     return;
                 }
@@ -122,7 +123,7 @@ public class Signup extends AppCompatActivity {
                                     Log.d(TAG,"user Profile is created "+ UserID);
                                 }
                             });
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), Profile.class));
                         }else{
                             Toast.makeText(Signup.this, "Error occured ! "+ task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
