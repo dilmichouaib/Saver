@@ -1,31 +1,24 @@
 package com.example.authentication;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class Profile extends AppCompatActivity {
+public class User_Profile extends AppCompatActivity {
 
     TextView PUsername, Ptxt1, Ptxt2,Pemail_textview,Pphone_textview,
-            Pbloodtype_textview,Plastdonation_textview,Pnbrdonation_textview,Points_textview,place;
+            Pbloodtype_textview,Plastdonation_textview,Pnbrdonation_textview,Points_textview, PLocation_wilaya;
 
     FirebaseAuth PAuth;
     FirebaseFirestore Pstore;
@@ -37,7 +30,7 @@ public class Profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_userprofile);
 
         Intent intent = getIntent();
         email = intent.getStringExtra("fEmail");
@@ -45,15 +38,15 @@ public class Profile extends AppCompatActivity {
 
 
         PUsername = findViewById(R.id.PUsername_id);
-        Ptxt1     = findViewById(R.id.Ptxt1_id);
-        Ptxt2     = findViewById(R.id.Ptxt2_id);
-        Pemail_textview     = findViewById(R.id.Pemail_textview_id);
-        Pphone_textview     = findViewById(R.id.Pphone_textview_id);
+        Ptxt1     = findViewById(R.id.Ptxt1_id2);
+        Ptxt2     = findViewById(R.id.Ptxt2_id2);
+        Pemail_textview     = findViewById(R.id.Pemail_textview_id2);
+        Pphone_textview     = findViewById(R.id.Pphone_textview_id2);
         Pbloodtype_textview     = findViewById(R.id.Pbloodtype_textview_id);
-        Plastdonation_textview     = findViewById(R.id.Plastdonation_textview_id);
-        Pnbrdonation_textview     = findViewById(R.id.Pnbrdonation_textview_id);
+        Plastdonation_textview     = findViewById(R.id.Plastdonation_textview_id2);
+        Pnbrdonation_textview     = findViewById(R.id.Pnbrdonation_textview_id2);
         Points_textview     = findViewById(R.id.Points_textview_id);
-        place     = findViewById(R.id.place_id);
+        PLocation_wilaya = findViewById(R.id.place_id2);
 
         PAuth = FirebaseAuth.getInstance();
         Pstore = FirebaseFirestore.getInstance();
@@ -75,7 +68,7 @@ public class Profile extends AppCompatActivity {
                 Plastdonation_textview.setText("45 Days Ago");
                 Pnbrdonation_textview.setText("2 Times");
                 Points_textview.setText("200 Points");
-                place.setText("Batna");
+                PLocation_wilaya.setText("Batna");
 
             }
         });
@@ -89,7 +82,7 @@ public class Profile extends AppCompatActivity {
 
     public void logout(View v){
         FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(getApplicationContext(), Login.class));
+        startActivity(new Intent(getApplicationContext(), LoginUser.class));
         finish();
     }
 }

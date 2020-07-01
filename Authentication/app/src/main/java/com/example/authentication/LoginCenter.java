@@ -18,30 +18,31 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Login extends AppCompatActivity {
-    EditText  LEmail, LPassword;
+public class LoginCenter extends AppCompatActivity {
+
+    EditText LEmail, LPassword;
     Button Login;
     TextView Lsignup;
+
     FirebaseAuth LAuth;
     ProgressBar LProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_center);
 
-        LEmail     = findViewById(R.id.name_id);
-        LPassword  = findViewById(R.id.password_id);
-        Login      = findViewById(R.id.login_id);
-        Lsignup    = findViewById(R.id.textsignup_id);
+        LEmail     = findViewById(R.id.name_id4);
+        LPassword  = findViewById(R.id.password_id4);
+        Login      = findViewById(R.id.login_id4);
 
         LAuth      = FirebaseAuth.getInstance();
-        LProgress  = findViewById(R.id.progressBar);
+        LProgress  = findViewById(R.id.progressBar5);
 
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = LEmail.getText().toString().trim();
+                final String email = LEmail.getText().toString().trim();
                 String password = LPassword.getText().toString();
 
                 if(TextUtils.isEmpty(email)){
@@ -66,21 +67,15 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(Login.this, "Logged In Successfuly", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(getApplicationContext(), Profile.class));
+                            //if(email == "center1@gmail.com")
+                                Toast.makeText(LoginCenter.this, "Logged In Successfuly", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(getApplicationContext(), Center_Profile.class));
                         }else{
-                            Toast.makeText(Login.this, "Error occured ! "+ task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginCenter.this, "Error occured ! "+ task.getException().getMessage(), Toast.LENGTH_LONG).show();
                             LProgress.setVisibility(View.GONE);
                         }
                     }
                 });
-            }
-        });
-
-        Lsignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Signup.class));
             }
         });
 

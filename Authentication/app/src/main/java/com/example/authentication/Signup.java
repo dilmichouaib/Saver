@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.opengl.EGLExt;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,7 +31,7 @@ public class Signup extends AppCompatActivity {
 
     public static final String TAG = "TAG";
     EditText sName, sEmail, sPhone, sPassword;
-    Spinner sBloodType;
+    Spinner sBloodType, slocation_wilaya;
     Button sSignup;
     TextView sLogin;
     FirebaseAuth sAuth;
@@ -49,6 +48,7 @@ public class Signup extends AppCompatActivity {
         sName      = findViewById(R.id.name_id);
         sEmail     = findViewById(R.id.email_id);
         sBloodType = findViewById(R.id.bloodType_id);
+        slocation_wilaya = findViewById(R.id.wilaya_id);
         sPhone     = findViewById(R.id.phone_id);
         sPassword  = findViewById(R.id.password_id);
         sSignup    = findViewById(R.id.login_id);
@@ -66,9 +66,15 @@ public class Signup extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sBloodType.setAdapter(adapter);
 
+        // spinner wilaya
+        final String[] wilaya_array = getResources().getStringArray(R.array.wilayas_array);
+        ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_spinner_item, wilaya_array);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        slocation_wilaya.setAdapter(adapter2);
+
 
         if(sAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(), Profile.class));
+            startActivity(new Intent(getApplicationContext(), User_Profile.class));
             finish();
         }
 
@@ -80,6 +86,7 @@ public class Signup extends AppCompatActivity {
                 final String phone = sPhone.getText().toString();
                 final String name = sName.getText().toString();
                 final String bloodSelected = sBloodType.getSelectedItem().toString();
+                final String location_wilaya = slocation_wilaya.getSelectedItem().toString();
 
                 if(TextUtils.isEmpty(email)){
                     sEmail.setError("Email is Required");
@@ -115,6 +122,7 @@ public class Signup extends AppCompatActivity {
                             user.put("fEmail", email);
                             user.put("fPhone", phone);
                             user.put("fBloodType", bloodSelected);
+                            user.put("fLocation_wilaya", location_wilaya);
 
                             // check if creating been successful
                             DR.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -123,7 +131,7 @@ public class Signup extends AppCompatActivity {
                                     Log.d(TAG,"user Profile is created "+ UserID);
                                 }
                             });
-                            startActivity(new Intent(getApplicationContext(), Profile.class));
+                            startActivity(new Intent(getApplicationContext(), User_Profile.class));
                         }else{
                             Toast.makeText(Signup.this, "Error occured ! "+ task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -137,7 +145,7 @@ public class Signup extends AppCompatActivity {
         sLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Login.class));
+                startActivity(new Intent(getApplicationContext(), LoginUser.class));
             }
         });
     }
